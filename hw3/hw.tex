@@ -18,6 +18,69 @@
 
 \section*{Problem 1}
 
+In this problem, we are tasked with using OpenCV to produce a sobel edge filter and a Marr-Hildreth detector. The code for this problem can be found in the associated $problem1.py$ code. The results are shown below.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.45\textwidth]{imgs/original.jpg}
+    \caption{We begin with our selfie image}
+    \label{fig:original_image}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.45\textwidth]{imgs/gray.jpg}
+    \caption{We then convert it to greyscale to do our edge dection}
+    \label{fig:grayscale}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.45\textwidth]{imgs/sobel.jpg}
+    \caption{We gaussian blur and then apply a sobel filter}
+    \label{fig:sobel}
+\end{figure}
+
+\noindent
+
+After this, we then move through $\sigma=[1, 2, 4, 8, 16]$ to try a Marr-Hildreth filter. Here we perform the same operation - grayscale and Gaussian blur our images prior to passing it through the detector - but do additonal thresholding to try and improve results.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.45\textwidth]{imgs/mh-1.jpg}
+    \caption{$\sigma=1$}
+    \label{fig:mh_1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.45\textwidth]{imgs/mh-2.jpg}
+    \caption{$\sigma=2$}
+    \label{fig:mh_2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.45\textwidth]{imgs/mh-4.jpg}
+    \caption{$\sigma=4$}
+    \label{fig:mh_4}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.45\textwidth]{imgs/mh-8.jpg}
+    \caption{$\sigma=8$}
+    \label{fig:mh_8}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.45\textwidth]{imgs/mh-16.jpg}
+    \caption{$\sigma=16$}
+    \label{fig:mh_16}
+\end{figure}
+
+As the $\sigma$ value raised, we begin to see better performance of the line detector. Unfortunately the original choice of the image is likely poor as the many defined lines of the brick wall behind the subject, paired with a straight vertical line shirt seems to introduce significant noise into the results.
 
 \section*{Problem 2}
 
@@ -70,6 +133,36 @@ This result is an odd function (even or odd functions multiplied by an odd funct
 
 \section*{Problem 3}
 
+In this problem we present an edge detector wherein we convolve an image $f(\vec{x})$ with:
+
+\begin{equation}
+     g_{\sigma_1} = \frac{1}{2\pi \sigma_1^2}e^{-\frac{|\vec{x}|^2}{2\sigma_1^2}}
+\end{equation}
+
+\noindent ...which forms $h_1(\vec{x})$. We then convolve $f(\vec{x})$ with $g_{\sigma_2}$ to get $h_2(\vec{x})$.
+
+\noindent Then finally we compute $h_3(\vec{x}) = \frac{h_2(\vec{x}) - h_1(\vec{x})}{\sigma_2 - \sigma_1} $.
+
+\subsection*{A}
+
+First we aim to describe how $h_3(\vec{x})$ can be computed by a single convolution with some kernel $g(\vec{x})$. Since $h_1(\vec{x}) = f(\vec{x}) * g_{\sigma_1}(\vec{x})$, and $h_2(\vec{x}) = f(\vec{x}) * g_{\sigma_2}(\vec{x})$...  
+
+\begin{equation}
+  h_3(\vec{x}) = \frac{f(\vec{x})*g_{\sigma_2}-f(\vec{x})*g_{\sigma_1}}{\sigma_2 - \sigma_1}
+\end{equation}
+
+\noindent We can pull out the common $f(\vec{x})$ term and get:
+
+\begin{equation}
+    h_3(\vec{x}) = f(\vec{x})*\frac{g_{\sigma_2} - g_{\sigma_1}}{\sigma_2 - \sigma_1}
+\end{equation}
+
+\noindent ...which leads us to the convolution kernel of:
+
+\begin{equation}
+    g(\vec{x}) = \frac{g_{\sigma_2} - g_{\sigma_1}}{\sigma_2 - \sigma_1}
+\end{equation}
+
 
 \section*{Problem 4}
 For this problem we look at two kernels that are used to detect diagonal edges:
@@ -92,11 +185,53 @@ For this problem we look at two kernels that are used to detect diagonal edges:
 
 \subsection*{A}
 
-How are these operates related to Sobel H and Sobel V?
+First, we are tasked with noting how these operators are located with the Sobel H and V operators. The Sobel H and V operators are horizontal and vertical line (respectively) detectors. They are shown below:
+
+\begin{equation}
+    V = \begin{bmatrix}
+        -1 & 0 & 1 \\
+        -2 & 0 & 2 \\
+        -1 & 0 & 1 \\
+    \end{bmatrix}
+\end{equation}
+
+\begin{equation}
+    H = \begin{bmatrix}
+        1 & 2 & 1 \\
+        0 & 0 & 0 \\
+        -1 & -2 & -1 \\
+    \end{bmatrix}
+\end{equation}
+
+These operators are designed to detect either vertically oriented or horizontally oriented lines. Much like these operators, the presented $NW$ and $NE$ have a 0 designation across the target axis, but in our case looks for diagonal lines.
 
 \subsection*{B}
 
 Now we aim to suggest two ways to combine these operators into a singular kernel that can identify northeast or northwest diagonals together, and discuss the potential problems with these combinations.
+
+First, the naive approach could be to just combine them with $0$ across the diagonal axes.
+
+\begin{equation}
+    \begin{bmatrix}
+        0 & 1 & 0 \\
+        1 & 0 & 1 \\
+        0 & 1 & 0 \\
+    \end{bmatrix}
+\end{equation}
+
+This has several issues. The first is that we don't actually detect or strength diagonal lines, as by looking for both we are essentially muting lines that are \textit{just} 45 degrees $NW$ $NE$. Also, our lack of negative values creating a significant value difference here between bottom and top part of the filter results in a poor filter with a lack of directionality, which can further diminish the ability to differentiate.
+
+Another way to combine them would be to design a filter that would look heavily at diagonal lines and penalize anything else. Here I suggest the following filter:
+
+\begin{equation}
+    \begin{bmatrix}
+        1 & -2 & 1 \\
+        -2 & 4 & -2 \\
+        1 & -2 & 1
+    \end{bmatrix}
+\end{equation}
+
+...this filter would look for each without heavily penalizing directionality that could cause fainter diagonal lines to be lost.
 
 \subsection*{C}
 

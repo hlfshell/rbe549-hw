@@ -31,11 +31,10 @@ cv2.waitKey(0)
 # Now let's do Marr-Hildreth edges, which is the Laplace
 # of the Gaussian
 for sigma in [1, 2, 4, 8, 16]:
-    blurred = cv2.GaussianBlur(img, (9,9), sigma)
-    mh = cv2.Laplacian(img, cv2.CV_64F, (7,7), scale=1)
-    mh.convertTo(mh, cv2.CV_16UC1)
-    cv2.threshold(mh, 0, 255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+    blurred = cv2.GaussianBlur(img, (5,5), sigma)
+    mh = cv2.Laplacian(img, cv2.CV_8UC1)
+    _, threshold = cv2.threshold(mh, 0, 255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
     # Show our result
-    cv2.imshow(f"MH @ Sigma = {sigma}", mh)
+    cv2.imshow(f"MH @ Sigma = {sigma}", threshold)
     cv2.waitKey(0)
-    cv2.imwrite(f"./imgs/mh-{sigma}.jpg", mh)
+    cv2.imwrite(f"./imgs/mh-{sigma}.jpg", threshold)
