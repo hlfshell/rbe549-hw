@@ -18,8 +18,66 @@
 
 \section*{Problem 0}
 
+I am going to be working with Bob DeMont and Zeke Flaton for the final project. We will be utilizing CARLA, a self driving car simulator, to demonstrate a real world application of semantic or instance segmentation. Additional details will come with the project proposal.
+
 
 \section*{Problem 1}
+
+In this problem we are tasked with using OpenCV to compute and display the Hough lines on a given image. All code to generate these outputs can be found in $problem1.py$.
+
+First we grab our chosen artwork.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.45\textwidth]{imgs/original.jpg}
+    \caption{Original image}
+    \label{fig:1-1}
+\end{figure}
+
+From here, we graysale the image and then apply a Gaussian blur as that's known to improve edge detection. We then try to get a Sobel edge detection.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.45\textwidth]{imgs/sobel.jpg}
+    \caption{Sobel of images}
+    \label{fig:1-2}
+\end{figure}
+
+We then find and display the Hough Lines of this image. This does not, however, work out great.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.45\textwidth]{imgs/hough_lines_sobel.jpg}
+    \caption{Sobel + Hough Lines}
+    \label{fig:1-3}
+\end{figure}
+
+To get better results, we swap to Canny edge detection:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.45\textwidth]{imgs/canny.jpg}
+    \caption{Canny Edges}
+    \label{fig:1-4}
+\end{figure}
+
+This results in a better outcome, with edges clearly delineated.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.45\textwidth]{imgs/hough_lines_canny.jpg}
+    \caption{Canny + Hough Lines}
+    \label{fig:1-5}
+\end{figure}
+
+We can then isolate the peak Hough line by isolating the strongest line, seen here:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.45\textwidth]{imgs/hough_lines_peak_line.jpg}
+    \caption{Peak Hough Line}
+    \label{fig:1-6}
+\end{figure}
 
 
 \section*{Problem 2}
@@ -103,6 +161,36 @@ Now that we know $y=0$, we can solve for x:
 \noindent ...which is our resulting $L_3$.
 
 \section*{Problem 3}
+
+In this problem we design a way to to represent and parameterize detected squares within a photo. For simplicity we are ignoring squares that could have orientations not in line with the $x$ and $y$ axis.
+
+\subsection*{A}
+
+First we are tasked with suggesting a representation of the squares. For this I choose the side length $l$ (since squares, by definition, share this size for each side) and $x$ and $y$ location of its center. This creates a 3 dimensional space of $x$, $y$, and $l$. The resulting corners are thus placed in $\pm \frac{1}{2} \sqrt{2s^2}$ from the $(x,y)$ origin.
+
+\subsection*{B}
+
+Here we draw the representation of a $(4,6)$ square in our Hough Square Space:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.45\textwidth]{imgs/prob3_b.jpg}
+    \caption{(4,6) square in Hough Square Space}
+    \label{fig:prob3_b}
+\end{figure}
+
+\subsection*{C}
+
+Here we are looking to describe all possible squares if we extend the previous example and discover an edge at $(6,8)$
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.45\textwidth]{imgs/prob3_c.jpg}
+    \caption{(6,8) square in Hough Square Space}
+    \label{fig:prob3_c}
+\end{figure}
+
+Here we see a cone emenating from the $(6,8)$ point - as the size of the square increases, we radiate outwards in the possible length size $l$. This results in a pyramid (each layer being a square of the increased possible size. The center origin of the square is within the pyramid, and based on its position we know the resulting $l$ square side length.
 
 \section*{Problem 4}
 

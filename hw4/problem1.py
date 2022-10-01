@@ -72,3 +72,15 @@ if lines is not None:
 cv2.imwrite("./imgs/hough_lines_canny.jpg", target)
 cv2.imshow("Canny Hough Lines", target)
 cv2.waitKey(0)
+
+# Show the strongest line
+target = np.copy(img)
+target = cv2.cvtColor(target, cv2.COLOR_GRAY2BGR)
+x0, y0, x1, y1 = lines[0][0]
+start = (x0, y0)
+end = (x1, y1)
+cv2.line(target, start, end, (0, 0, 255), 3, cv2.LINE_AA)
+
+cv2.imwrite("./imgs/hough_lines_peak_line.jpg", target)
+cv2.imshow("Peak Line", target)
+cv2.waitKey(0)
