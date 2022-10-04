@@ -1,0 +1,126 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin = 0.8in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{mathtools}
+\usepackage{float}
+
+
+\title{RBE549 - Homework 5}
+\author{Keith Chester}
+\date{Due date: October 6, 2022}
+
+\begin{document}
+\maketitle
+
+
+
+\section*{Problem 2}
+
+In this section we are tackling problems with quad trees.
+
+\subsection*{A}
+
+We are tasked with creating an image from the quad tree output of $[[0110]10[0100]]$. The image would be presented below:
+
+\begin{center}
+    \begin{tabular}{ | c | c | c | c | }
+        \hline
+        0 & 1 & 1 & 1 \\ 
+        \hline
+        0 & 1 & 1 & 1 \\ 
+        \hline
+        0 & 1 & 0 & 0 \\ 
+        \hline
+        0 & 0 & 0 & 0 \\ 
+        \hline  
+    \end{tabular}
+\end{center}
+
+\subsection*{B}
+
+Now we're tasked with shifting the image left, with the rightmost column containing all zeroes, and then determining the resultant quad tree encoding. The expected image would be:
+
+\begin{center}
+    \begin{tabular}{ | c | c | c | c | }
+        \hline
+        1 & 1 & 1 & 0 \\ 
+        \hline
+        1 & 1 & 1 & 0 \\ 
+        \hline
+        1 & 0 & 0 & 0 \\ 
+        \hline
+        0 & 0 & 0 & 0 \\ 
+        \hline  
+    \end{tabular}
+\end{center}
+
+\noindent ...this would encode to $[1[1010]0[1000]]$.
+
+\subsection*{C}
+
+In this problem, we are asked to describe a recursive algorithm to rotate a quad tree. For instance, given our original quad tree from section A:
+
+\begin{center}
+    \begin{tabular}{ | c | c | c | c | }
+        \hline
+        0 & 1 & 1 & 1 \\ 
+        \hline
+        0 & 1 & 1 & 1 \\ 
+        \hline
+        0 & 1 & 0 & 0 \\ 
+        \hline
+        0 & 0 & 0 & 0 \\ 
+        \hline  
+    \end{tabular}
+\end{center}
+
+\noindent This had a quad tree encoding of $[[0110]10[0100]]$. If we were to rotate this image $90^\circ$ clockwise:
+
+\begin{center}
+    \begin{tabular}{ | c | c | c | c | }
+        \hline
+        0 & 0 & 0 & 0 \\ 
+        \hline
+        0 & 1 & 1 & 1 \\
+        \hline
+        0 & 0 & 1 & 1 \\
+        \hline
+        0 & 0 & 1 & 1 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+\noindent This has a quad tree encoding of $[[0010][0011]10]$. Code for this recursive approach can be found in $problem2.py$.
+
+A description of it loosely: For each node of the quad tree, change the order of the tree to be last, then first through third. Add these nodes to the new resulting tree, but call the same rotation function on each child. If a node is a singular number (meaning all values within the quad tree are the same from that point on) you can just return that value back.
+
+
+\section*{Problem 4}
+
+In this section, we are presented with the following segmented map with class labels:
+
+\begin{center}
+    \begin{tabular}{ | c | c | c | c | c | }
+        \hline
+        1 & 0 & 0 & 0 & 1 \\ 
+        \hline
+        1 & 1 & 1 & 1 & 1 \\ 
+        \hline
+        1 & 0 & 1 & 0 & 1 \\ 
+        \hline
+        1 & 0 & 0 & 0 & 1 \\ 
+        \hline
+        1 & 2 & 2 & 2 & 1 \\ 
+        \hline  
+    \end{tabular}
+\end{center}
+
+\subsection*{A}
+
+Here we aim to list all regions and their classes, and edges and which regions they separate:
+
+\end{document}
