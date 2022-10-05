@@ -58,7 +58,7 @@ Now we're tasked with shifting the image left, with the rightmost column contain
     \end{tabular}
 \end{center}
 
-\noindent ...this would encode to $[1[1010]0[1000]]$.
+\noindent ...this would encode to $[1[1001]0[1000]]$.
 
 \subsection*{C}
 
@@ -98,6 +98,40 @@ In this problem, we are asked to describe a recursive algorithm to rotate a quad
 
 A description of it loosely: For each node of the quad tree, change the order of the tree to be last, then first through third. Add these nodes to the new resulting tree, but call the same rotation function on each child. If a node is a singular number (meaning all values within the quad tree are the same from that point on) you can just return that value back.
 
+\section*{Problem 3}
+
+In this problem we aim to prove that rotating and translation an entire point cloud does not affect the distance between any two of the points within, or that $||\vec{x}^0_1-\vec{x}^0_0|| = ||\vec{x}^1_1 - \vec{x}^1_0||$. We will let $\vec{x}^1_i=R\vec{x}^0_i + \vec{T}$.
+
+First, we state our initial equation with the above definitions:
+
+\begin{equation}
+    ||\vec{x}^1_1 - \vec{x}^1_0|| = ||(R\vec{x}^0_1+\vec{T}) - (R\vec{x}^0_0 + \vec{T})||
+\end{equation}
+
+\noindent ...this we can expand and simplify and then get rid of the effect of our translation $\vec{T}$:
+
+\begin{equation}
+    ||\vec{x}^1_1 - \vec{x}^1_0|| = ||R\vec{x}^0_1+\vec{T} - R\vec{x}^0_0 - \vec{T}||
+\end{equation}
+
+\begin{equation}
+    ||\vec{x}^1_1 - \vec{x}^1_0|| = ||R\vec{x}^0_1 - R\vec{x}^0_0||
+\end{equation}
+
+\noindent This is equivlanet to the form:
+
+\begin{equation}
+    ||\vec{x}^1_1 - \vec{x}^1_0|| = ||R|| * ||\vec{x}^0_1 - \vec{x}^0_0||
+\end{equation}
+
+\noindent $||R|| = R^TR$, and $R^TR = 1$, so therefore:
+
+\begin{equation}
+    ||\vec{x}^1_1 - \vec{x}^1_0|| = ||\vec{x}^0_1 - \vec{x}^0_0||
+\end{equation}
+
+\noindent This proves that the resulting distance between two moved points would be calculated the same.
+
 
 \section*{Problem 4}
 
@@ -122,5 +156,51 @@ In this section, we are presented with the following segmented map with class la
 \subsection*{A}
 
 Here we aim to list all regions and their classes, and edges and which regions they separate:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.45\textwidth]{imgs/edges_verticies.png}
+    \caption{Edges and verticies}
+    \label{fig:edges_verticies}
+\end{figure}
+
+From this we can find the following regions and edges:
+
+\begin{center}
+    \begin{tabular}{ | c | c | }
+        Region & Class \\
+        \hline
+        -1 & -1 \\
+        0 & 1 \\
+        1 & 0 \\
+        6 & 0\\
+        9 & 2 \\
+    \end{tabular}
+\end{center}
+
+\begin{center}
+    \begin{tabular}{| c | c | c |}
+        Edge & Class & Regions \\
+        \hline
+        1 & -1 & 1 \\
+        2 & -1 & 0 \\
+        3 & 0 & 1 \\
+        4 & 1 & 2 \\
+        5 & 0 & 1 \\
+        6 & 0 & 2 \\
+        7 & 1 & 2 \\
+        8 & -1 & 2 \\
+        9 & -1 & 1
+    \end{tabular}
+\end{center}
+
+\subsection*{B}
+
+We are asked here how many verticies are in this diagram. As labeled in the figure above, there are six verticies.
+
+\subsection*{C}
+
+We are then asked if this is eight- or four- connected. This work could be either; there are no diagonals that would demonstrate an eight-connected setup, but that doesn't exclude it since eight-connected is a subset of four-connected.
+
 
 \end{document}
