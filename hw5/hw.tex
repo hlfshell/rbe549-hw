@@ -16,7 +16,40 @@
 \begin{document}
 \maketitle
 
+\section*{Problem 1}
 
+In this problem we are looking at how the SURF algorithm integral images quickly. To this end we will be demonstrating how to compute the sum of a rectangular regon of an image using only a $3$ operations - $+ and -$. An example image of the region is:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.45\textwidth]{imgs/prob1.png}
+    \caption{Edges and verticies}
+    \label{fig:prob1-1}
+\end{figure}
+
+Based on the method and direction that the integral image was calculated, we can identify key squares that we can utilize to do our calculation - $P$, $Q$, $S$, and $R$:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.45\textwidth]{imgs/psqr.png}
+    \caption{P, Q, S, and R identification}
+    \label{fig:prob1-2}
+\end{figure}
+
+From here we can identify each of $P$, $Q$, $S$, and $R$ via their positions relative to our initial definitions of our region, $(x_0, y_0)$ and $(x_1, y_1)$:
+
+\begin{itemize}
+    \item $P=(x_1, y_1)$
+    \item $Q=(x_1, y_0 - 1)$
+    \item $S=(x_0-1, y_1)$
+    \item $R=(x_0-1, y_1-1)$
+\end{itemize}
+
+With these values you can calculate the sum of the given region by performing the following calculation:
+
+\begin{equation}
+    I_\Sigma[i,j] = P - Q - S + R
+\end{equation}
 
 \section*{Problem 2}
 
