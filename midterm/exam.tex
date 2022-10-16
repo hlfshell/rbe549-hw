@@ -282,4 +282,91 @@ Now we can determine the size of the image of Mars on our eye:
 
 \noindent ...and now, we have $\approx 0.115$ receptors seeing the image of Mars - which is why you can't see Mars with your naked eye on a clear night when it's at the average distance.
 
+\section*{Problem 4}
+
+In this problem we have an image which has two background objects and background pixels with brightness values that are distributed according to the Rayleigh distribution with parameters $\sigma_b$, $\sigma_{o1}$, and $\sigma_{o2}$ with $0<\sigma_b < \sigma_{o1} < \sigma_{o2}$. The probability of having brightness $k$ is given by:
+
+\begin{equation}
+    P_b(k) = \frac{k}{\sigma^2_b}e^{\frac{-k^2}{2\sigma^2_b}},
+    P_{o1}(k) = \frac{k}{\sigma^2_{o1}}e^{\frac{-k^2}{2\sigma^2_{o1}}},
+    P_{o2}(k) = \frac{k}{\sigma^2_{o2}}e^{\frac{-k^2}{2\sigma^2_{o2}}}
+\end{equation}
+
+We wish to find the decision rule that maximizes the probability of a correct decision. We'll use two thresholds - specifically first we check if the given pixel is ${b}$ or $o1$. Then a second threshold, which we'll calculate as well, is ${o2}$.
+
+\begin {equation}
+    \frac{1}{\sqrt{2\pi}\sigma_{o1}}e^{\frac{-(x-\mu)^2}{2\sigma^2_{o1}}}
+    >
+    \frac{1}{\sqrt{2\pi}\sigma_b}e^{\frac{-(x-\mu)^2}{2\sigma^2_b}}
+\end{equation}
+
+First we will try to isolate our terms by taking the natural log. Since $ln(ab) = ln(a) + ln(b)$ and $ln(\frac{a}{b}) = ln(a) - ln(b)$...:
+
+\begin{equation}
+    \ln(1) - \ln(\sqrt{2\pi}\sigma_{o1}) + \frac{-(x-\mu)^2}{2\sigma^2_{o1}}
+    >
+    \ln(1) - \ln(\sqrt{2\pi}\sigma_b) + \frac{-(x-\mu)^2}{2\sigma^2_b}
+\end{equation}
+
+\begin{equation}
+    \ln(\sigma_b) - \ln(\sigma_{o1}) > \frac{-(x-\mu)^2}{2\sigma^2_{o1}} - \frac{-(x-\mu)^2}{2\sigma^2_b}
+\end{equation}
+
+\begin{equation}
+    \ln(\sigma_b) - \ln(\sigma_{o1}) > \frac{((x-\mu)^2 2\sigma_b^2 - ((x-\mu)^2 2\sigma_{o1}^2 }{2\sigma^2_{o1}2 \sigma^2_b2}
+\end{equation}
+
+\begin{equation}
+    (\ln(\sigma_b) - \ln(\sigma_{o1})) (2\sigma^2_{o1}2 \sigma^2_b2)  > ((x-\mu)^2 2\sigma_b^2) - ((x-\mu)^2 2\sigma_{o1}^2)
+\end{equation}
+
+\begin{equation}
+    \frac{(\ln(\sigma_b) - \ln(\sigma_{o1})) (2\sigma^2_{o1}2 \sigma^2_b2)}{\sigma_b^2 - \sigma_{o1}^2} > (x - \mu)^2
+\end{equation}
+
+...and finally we can finalize this result by taking the square root of above, resulting in:
+
+\begin{equation}
+    \sigma_b \sigma_{o1} \sqrt{2\frac{\ln(\sigma_b) - \ln(\sigma_{o1})}{\sigma_b^2 - \sigma_{o1}^2}} > \vert x - \mu \vert
+\end{equation}
+
+We will redo this process again for the $o2 > o1$ threshold.
+
+\begin {equation}
+    \frac{1}{\sqrt{2\pi}\sigma_{o2}}e^{\frac{-(x-\mu)^2}{2\sigma^2_{o2}}}
+    >
+    \frac{1}{\sqrt{2\pi}\sigma_{o1}}e^{\frac{-(x-\mu)^2}{2\sigma^2_{o1}}}
+\end{equation}
+
+
+\begin{equation}
+    \ln(1) - \ln(\sqrt{2\pi}\sigma_{o2}) + \frac{-(x-\mu)^2}{2\sigma^2_{o2}}
+    >
+    \ln(1) - \ln(\sqrt{2\pi}\sigma_{o1}) + \frac{-(x-\mu)^2}{2\sigma^2_{o1}}
+\end{equation}
+
+\begin{equation}
+    \ln(\sigma_{o1}) - \ln(\sigma_{o2}) > \frac{-(x-\mu)^2}{2\sigma^2_{o2}} - \frac{-(x-\mu)^2}{2\sigma^2_{o1}}
+\end{equation}
+
+\begin{equation}
+    \ln(\sigma_{o1}) - \ln(\sigma_{o2}) > \frac{((x-\mu)^2 2\sigma_{o1}^2 - ((x-\mu)^2 2\sigma_{o2}^2 }{2\sigma^2_{o2}2 \sigma^2_{o1}2}
+\end{equation}
+
+\begin{equation}
+    (\ln(\sigma_{o1}) - \ln(\sigma_{o2})) (2\sigma^2_{o2}2 \sigma^2_{o1}2)  > ((x-\mu)^2 2\sigma_{o1}^2) - ((x-\mu)^2 2\sigma_{o2}^2)
+\end{equation}
+
+\begin{equation}
+    \frac{(\ln(\sigma_{o1}) - \ln(\sigma_{o2})) (2\sigma^2_{o2}2 \sigma^2_{o1}2)}{\sigma_{o1}^2 - \sigma_{o2}^2} > (x - \mu)^2
+\end{equation}
+
+...and finally we can finalize this result by taking the square root of above, resulting in:
+
+\begin{equation}
+    \sigma_b \sigma_{o2} \sqrt{2\frac{\ln(\sigma_{o1}) - \ln(\sigma_{o2})}{\sigma_{o1}^2 - \sigma_{o2}^2}} > \vert x - \mu \vert
+\end{equation}
+
+
+
 \end{document}
