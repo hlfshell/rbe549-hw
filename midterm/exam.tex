@@ -124,10 +124,53 @@ In this problem we are solving equations having to do with image focus and lense
 We aim to prove that for a thin lens, the image is in focus when:
 
 \begin{equation}
-    \frac{1}{-z_O} + \frac{1}{z_c} = \frac{1}{f}
+    \frac{1}{-z_0} + \frac{1}{z_c} = \frac{1}{f}
 \end{equation}
 
 
 
+\subsection*{B}
+
+In this problem we are tasked with finding the number of receptors on which the image of Mars falls while looking up into the night sky. We say that a human eyeball has a radius of $12mm$ and contains roughly $1.5\times10^8$ receptors. We assume that the receptors are uniform across a $160^\circ$ partial sphere in the back of our eye. The planet of Mars has a $4\times10^3km$ radius with an average distance of $2.25\times10^8km$. We use an $f$ focal value equal to the eye's diameter ($24mm$).
+
+To solve this, first we use similar triangles using a lens diagram (similar to the one provided for the question in $3A$); this allows us to determine the size of the image of Mars on our eye.
+
+\begin{equation}
+    \frac{z_0}{z_c} = \frac{h_0}{h_1}
+\end{equation}
+
+\noindent In this we have $z_0$ as the distance from Mars to our eye, and $h_0$ the width of Mars, and $h_i$ is the size of the image of Mars on our eye. We need to solve for $z_c$ before we can figure out $h_1$, so to do this we look at the equation utilized earlier:
+
+\begin{equation}
+    \frac{1}{-z_0}+\frac{1}{z_c}=\frac{1}{f}
+\end{equation}
+
+\begin{equation}
+    \frac{1}{-2.25\times10^8km}+\frac{1}{z_c}=\frac{1}{24mm}
+\end{equation}
+
+\begin{equation}
+    \frac{1}{z_c} \approx 83.33 + 4.44\times10^{-9}
+\end{equation}
+
+\begin{equation}
+    z_c \approx 0.012 \approx 24 mm
+\end{equation}
+
+Now we can determine the size of the image of Mars on our eye:
+
+\begin{equation}
+    \frac{z_0}{z_c} = \frac{h_0}{h_1}
+\end{equation}
+
+\begin{equation}
+    \frac{2.25\times10^8km}{12mm} = \frac{8,000km}{h_1}
+\end{equation}
+
+\begin{equation}
+    h_1 = 8.53\times10^{-7} m
+\end{equation}
+
+\noindent ...which is an incredibly tiny size. So let's figure out how many receptors we have per square $mm$ of our eye. First we need to find the area of a spherical cap, such that we can determine the average number of receptors per mm in the eye.
 
 \end{document}
