@@ -7,6 +7,7 @@
 \usepackage{multirow}
 \usepackage{mathtools}
 \usepackage{float}
+\usepackage{pythonhighlight}
 
 
 \title{RBE549 - Midterm Exam}
@@ -367,6 +368,169 @@ We will redo this process again for the $o2 > o1$ threshold.
     \sigma_b \sigma_{o2} \sqrt{2\frac{\ln(\sigma_{o1}) - \ln(\sigma_{o2})}{\sigma_{o1}^2 - \sigma_{o2}^2}} > \vert x - \mu \vert
 \end{equation}
 
+\section*{Problem 5}
+
+In this problem we are looking to perform a number of transforms on the following image:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.7\textwidth]{imgs/dot-blot.jpg}
+    \caption{Original Image}
+    \label{fig:prob5}
+\end{figure}
+
+All code for these exercises are at the end of this problem.
+
+\subsection*{D}
+First we compete and find the grayscale image's Sobel edges. The results of this are below:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.7\textwidth]{imgs/sobel.jpg}
+    \caption{Sobel Edges}
+    \label{fig:sobel}
+\end{figure}
+
+\subsection*{E}
+
+We are the nasked to find the Marr-Hildreth edges for various values of $\sigma$ - specifically $[1,2,4,8,16]$. We get closed contours as the $\sigma$ raises.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.7\textwidth]{imgs/mh-1.jpg}
+    \caption{$\sigma = 1$}
+    \label{fig:mh-1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.7\textwidth]{imgs/mh-2.jpg}
+    \caption{$\sigma = 2$}
+    \label{fig:mh-2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.7\textwidth]{imgs/mh-4.jpg}
+    \caption{$\sigma = 4$}
+    \label{fig:mh-4}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.7\textwidth]{imgs/mh-8.jpg}
+    \caption{$\sigma = 8$}
+    \label{fig:mh-8}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.7\textwidth]{imgs/mh-16.jpg}
+    \caption{$\sigma = 16$}
+    \label{fig:mh-16}
+\end{figure}
+
+\subsection*{F}
+
+Now we are tasked with designing a filter (I chose a high-pass filter) in the Fourier domain to perform th efunction of edge detection.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.7\textwidth]{imgs/dft.jpg}
+    \caption{Fourier Transform of our Original Image}
+    \label{fig:dft}
+\end{figure}
+
+We create the high-pass filter by occluding via a mask. I used a circle mask to prevent issues with ringing which a square would have.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.7\textwidth]{imgs/ftt_mask.png}
+    \caption{Fourier Transform w/ Mask}
+    \label{fig:mask}
+\end{figure}
+
+The end result is an edge detection of the image:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.7\textwidth]{imgs/ftt_highpass.png}
+    \caption{Post Fourier High Pass}
+    \label{fig:fourier-edge}
+\end{figure}
+
+\subsection*{Problem 5 Code}
+
+\begin{python}
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+
+# First load the image
+img = cv2.imread("./imgs/dot-blot.jpg", cv2.IMREAD_COLOR)
+
+# # We need the image in grayscale for sobel
+img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+cv2.imwrite("./imgs/gray.jpg", img)
+
+# Then it's generally accepted that blurring helps edge
+# detection techniques
+blurred = cv2.GaussianBlur(img, (3,3), 0)
+
+# Now let's generate the sobel edge detection
+sobel = cv2.Sobel(blurred, cv2.CV_64F, dx=1, dy=1, ksize=5)
+cv2.imwrite("./imgs/sobel.jpg", sobel)
+
+# Now let's show our results
+cv2.imshow("Original", img)
+cv2.waitKey(0)
+cv2.imshow("Sobel", sobel)
+cv2.waitKey(0)
+
+# Now let's do Marr-Hildreth edges, which is the Laplace
+# of the Gaussian
+for sigma in [1, 2, 4, 8, 16]:
+    blurred = cv2.GaussianBlur(img, (15,15), sigma)
+    mh = cv2.Laplacian(blurred, cv2.CV_8UC1)
+    _, threshold = cv2.threshold(mh, 0, 255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+    # Show our result
+    cv2.imshow(f"MH @ Sigma = {sigma}", threshold)
+    cv2.waitKey(0)
+    cv2.imwrite(f"./imgs/mh-{sigma}.jpg", threshold)
+
+# Now let's do the fourier transform filter
+dft = cv2.dft(np.float32(img), flags=cv2.DFT_COMPLEX_OUTPUT)
+dft_shifted = np.fft.fftshift(dft)
+
+magnitude_spectrum = 20 * np.log((cv2.magnitude(dft_shifted[:,:,0], dft_shifted[:,:,1])))
+
+cv2.imwrite("./imgs/dft.jpg", magnitude_spectrum)
+
+rows, cols = img.shape
+center = int(rows/2), int(cols/2)
+r = 30
+mask = np.ones((rows, cols, 2), np.uint8)
+x, y = np.ogrid[:rows, :cols]
+
+mask_area = (x- center[0]) ** 2 + (y-center[1]) ** 2 <= r*r
+mask[mask_area] = 0
+
+fshift = dft_shifted * mask
+fshift_mask_mag = 20 * np.log(cv2.magnitude(fshift[:,:,0], fshift[:,:,1]))
+f_ishift = np.fft.ifftshift(fshift)
+img_back = cv2.idft(f_ishift)
+img_back = cv2.magnitude(img_back[:,:,0], img_back[:,:,1])
+
+plt.figure()
+plt.imshow(fshift_mask_mag)
+plt.show()
+plt.close()
+
+plt.figure()
+plt.imshow(img_back)
+plt.show()
+plt.close()
+\end{python}
 
 
 \end{document}
