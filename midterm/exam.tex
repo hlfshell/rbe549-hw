@@ -154,7 +154,7 @@ To solve this, first we use similar triangles using a lens diagram (similar to t
 \end{equation}
 
 \begin{equation}
-    z_c \approx 0.012 \approx 24 mm
+    z_c \approx 0.024 \approx 24 mm
 \end{equation}
 
 Now we can determine the size of the image of Mars on our eye:
@@ -168,9 +168,63 @@ Now we can determine the size of the image of Mars on our eye:
 \end{equation}
 
 \begin{equation}
-    h_1 = 8.53\times10^{-7} m
+    h_1 = 8.53\times10^{-7} m = 8.53\times10^{-4}
 \end{equation}
 
-\noindent ...which is an incredibly tiny size. So let's figure out how many receptors we have per square $mm$ of our eye. First we need to find the area of a spherical cap, such that we can determine the average number of receptors per mm in the eye.
+\noindent ...which is an incredibly tiny size. So let's figure out how many receptors we have per square $mm$ of our eye. First we need to find the area of a spherical cap, such that we can determine the average number of receptors per mm in the eye. We know that the area of a spherical cap ($S$) is:
+% S = 2 *pi* r * h where h=r-sqrt(r^2 - a^2) and a=rcos(10degrees)
+\begin{equation}
+    S = 2rh\pi
+\end{equation}
+
+\noindent ...where $h$ is equal to:
+
+\begin{equation}
+    h=r - \sqrt{r^2 - a^2}
+\end{equation}
+
+\noindent ...but because of the partial sphere, a is not straight but rather angled to reach the $160^\circ$; thus we have an actual interior angle of $80^\circ$, so $a=r*\cos(10^\circ)$
+
+\begin{equation}
+    h = 12mm-\sqrt{(12mm)^2 - (12mm * \cos(10^\circ))^2}
+\end{equation}
+
+\begin{equation}
+    h \approx 0.00992 \approx 9.92mm 
+\end{equation}
+
+\noindent Now that we have $h$, we can solve for $S$:
+
+\begin{equation}
+    S = 2rh\pi = 2*12mm*9.92mm*\pi \approx 747.95 mm^2
+\end{equation}
+
+\noindent Since we know that there are approximately $1.5\times10^8$ receptors, we can use a ratio to get the approximate receptors per $mm$, or $r_{mm}$:
+
+\begin{equation}
+    \frac{1mm^2}{r_{mm}} = \frac{747.95mm^2}{1.5\times 10^8}
+\end{equation}
+
+\begin{equation}
+    r_{mm} \approx 200,548
+\end{equation}
+
+\noindent Now that we know the number of receptors per mm, we need to find the area that the Mars image sits on. With an image height of $8.53\times10^{-7}$, which means a radius of half that, or $4.27\times10^{-7}$, which is our $a$. Using the area formulas we used earlier:
+
+\begin{equation}
+    h = r - \sqrt{r^2 - a^2} = 12mm - \sqrt{(12mm)^2 - (4.27\times10^{-4})^2} = 7.60\times10^{-9}
+\end{equation}
+
+\begin{equation}
+    S = 2 \pi r h = 2 \pi (12mm) {7.11\times10^{-7}mm} = 5.73\times10^{-7} mm^2
+\end{equation}
+
+\noindent So this area times our known receptors per $mm$:
+
+\begin{equation}
+    x_{receptors} = 200,548 \times 5.73\times10^{-7} = 0.115
+\end{equation}
+
+\noindent ...and now, we have $\approx 0.115$ receptors seeing the image of Mars - which is why you can't see Mars with your naked eye on a clear night when it's at the average distance.
 
 \end{document}
