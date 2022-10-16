@@ -121,13 +121,68 @@ In this problem we are solving equations having to do with image focus and lense
 
 \subsection*{A}
 
-We aim to prove that for a thin lens, the image is in focus when:
+
+In this problem, we attempt to prove with similar triangles that:
 
 \begin{equation}
     \frac{1}{-z_0} + \frac{1}{z_c} = \frac{1}{f}
 \end{equation}
 
+First, we look at the original diagram provided. I have added markers for the lengths ($z_0$ and $z_c$) assigned to their lengths, and marked the two lengths of $f$ to its distance from the center of the lens.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.7\textwidth]{imgs/prob_3.png}
+    \caption{Thin Lens Diagram}
+    \label{fig:prob1}
+\end{figure}
+
+We will note that the triangle provided by $z_0$ and be represented on the other side of the lens by flipping it along the lens as an axis. From there we can begin to mark angles.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.7\textwidth]{imgs/prob_3_expanded.png}
+    \caption{Thin Lens Diagram Expanded}
+    \label{fig:prob1_expanded}
+\end{figure}
+
+Because the $z$ access, $z_c$, and $z_0$ are parallel lines, we can thus know that opposite angles of lines crossing them are equivalent. Thus we see that $\phi_c$ and $\phi_0$ are equivalent and marked as such. Thesame goes for $\psi_c$ and $\psi_0$, as marked.  Since the lines passing through the focal point $f$ is rom parallel lines and continuous, we can also determine that $\theta_0$ and $\theta_c$ are also equivalent.
+
+With this, we know that these are similar triangles, and can begin to form ratios to represent the relationships. Thus we have:
+
+\begin{equation}
+    \frac{-z_0}{z_c} = \frac{f}{z_c - f}
+\end{equation}
+
+From here we can perform algebra to isolate the variables into a manner that is closer to what we sought to originally prove:
+
+\begin{equation}
+    -z_0 z_c - z_0 f = z_c f
+\end{equation}
+
+\begin {equation}
+    -z_0 z_c = z_c f - z_0 f
+\end{equation}
+
+\begin{equation}
+    -z_0 z_c = f (z_c - z_0)
+\end{equation}
+
+\begin{equation}
+    \frac{-z_0 z_c}{f} = z_c - z_0
+\end{equation}
+
+\begin {equation}
+    \frac{1}{f} = \frac{z_c - z_0}{-z_0 z_c}
+\end{equation}
+
+\begin{equation}
+    \frac{1}{f} = \frac{z_c}{-z_0 z_c} + \frac{z_0}{z_0 z_c}
+\end{equation}
+
+\begin{eqnarray}
+    \frac{1}{f} = \frac{1}{-z_0} + \frac{1}{z_c}
+\end{eqnarray}
 
 \subsection*{B}
 
