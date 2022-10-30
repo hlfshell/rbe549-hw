@@ -29,7 +29,7 @@ In this problem we are shown a number of shapes and then wish to find the $r(\th
 
 \section*{Problem 2}
 
-In this problem we are aske a hypothetical problem. Supposing that we have a 2-class classification problem with centroid points $\mu A$ and $\mu B$, and that each classes are equally likely, we need to show that the Nearest Mean classifier decision boundary is midwasy along the line segment connecting $\mu A$ to $\mu B$.
+In this problem we are aske a hypothetical problem. Supposing that we have a 2-class classification problem with centroid points $\mu A$ and $\mu B$, and that each classes are equally likely, we need to show that the Nearest Mean classifier decision boundary is midway along the line segment connecting $\mu A$ to $\mu B$.
 
 First, we can look at the problem in $1$, $2$, and $3$ dimensions. For a $1D$ classifier, the resulting points would fall on a line and the resulting bounary would be between the centroids. If we looked at a $2D$ classifier, we would see the resulting decision boundary would be a line. Finally, for a $3D$ classifier, the decision boundary would be a plane. In each we depict the boundaries at a set distance $d$ between centroids.
 
@@ -54,6 +54,8 @@ First, we can look at the problem in $1$, $2$, and $3$ dimensions. For a $1D$ cl
     \label{fig:prob2-3}
 \end{figure}
 
+Since the problem states that the two classes $A$ and $B$ are equally likely, it means the the resulting centroids would be equidistant from a properly calculated Nearest Mean decision boundary. If either class had a higher probability than the other, the decision boundary as calculated via Nearest Mean would be closer to the centroid of that class.
+
 
 
 \section*{Problem 3}
@@ -74,9 +76,39 @@ We can use the coefficients $Z(k)$ to represent the object boundary. The limit o
 
 Here we suppose that the object is translated by $(\Delta x, \Delta y)$, such that $z'(s) = z(s) + \Delta x + j \Delta y$. How is $z'$'s DFT $Z'(k)$ related to $Z(k)$? 
 
+Stating again, that we start with:
+
+\begin{equation}
+    Z(k) = \sum^{S-1}_{s=0} e^{-2*\pi j \frac{ks}{S}} z(s), 0\leq k \leq S-1
+\end{equation}
+
+\noindent Which we can define $z'(s)$ as:
+
+\begin{equation}
+    z'(s) = z(s) + \Delta x + j \Delta y
+\end{equation}
+
+\noindent If we plug this into our original equation, we get...
+
+\begin{equation}
+    Z'(k) = \sum_{s=0}^{S-1} e^{-2\pi j + \frac{ks}{S}}z(s) + \sum_{s=0}^{S-1} e^{-2\pi j + \frac{ks}{S}} (\Delta x + j \Delta y)
+\end{equation}
+
+\noindent Here we see that we have a segment that is equivalent to oru defined $Z(k)$, so we can simplify by expressing:
+
+\begin{equation}
+    Z(k) + \sum_{s=0}^{S-1} e^{-2\pi j + \frac{ks}{S}} (\Delta x + j \Delta y)
+\end{equation}
+
+\noindent With $\Delta x$ and $j \Delta y$ isolated, we can use a table of known Fourier Transforms to identify the resulting conversion. Based on our problem's definition $\Delta X$ and $\Delta y$ are both constants, so we can state that:
+
+\begin{equation}
+    Z'(k) = Z(k) + \sigma(k)
+\end{equation}
+
 \subsection*{B}
 
-What object has $z(s) = R \cos(\frac{2\pi s}{S} + jR \sin(\frac{4\pi s}{S}))$? Below we see a graph drawing the shape, and included code to generate it:
+What object has $z(s) = R \cos(\frac{2\pi s}{S} + jR \sin(\frac{4\pi s}{S}))$? Below we see a graph drawing the shape, and included code to generate it. Random values were chosen for the $S$ and $r$ for the sake of plotting it.
 
 \begin{figure}[H]
     \centering
