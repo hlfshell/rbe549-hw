@@ -74,9 +74,7 @@ We can use the coefficients $Z(k)$ to represent the object boundary. The limit o
 
 \subsection*{A}
 
-Here we suppose that the object is translated by $(\Delta x, \Delta y)$, such that $z'(s) = z(s) + \Delta x + j \Delta y$. How is $z'$'s DFT $Z'(k)$ related to $Z(k)$? 
-
-Stating again, that we start with:
+Here we suppose that the object is translated by $(\Delta x, \Delta y)$, such that $z'(s) = z(s) + \Delta x + j \Delta y$. How is $z'$'s DFT $Z'(k)$ related to $Z(k)$? Stating again, that we start with:
 
 \begin{equation}
     Z(k) = \sum^{S-1}_{s=0} e^{-2*\pi j \frac{ks}{S}} z(s), 0\leq k \leq S-1
@@ -91,24 +89,26 @@ Stating again, that we start with:
 \noindent If we plug this into our original equation, we get...
 
 \begin{equation}
-    Z'(k) = \sum_{s=0}^{S-1} e^{-2\pi j + \frac{ks}{S}}z(s) + \sum_{s=0}^{S-1} e^{-2\pi j + \frac{ks}{S}} (\Delta x + j \Delta y)
+    Z'(k) = \sum_{s=0}^{S-1} e^{-2\pi j \frac{ks}{S}}z(s) + \sum_{s=0}^{S-1} e^{-2\pi j \frac{ks}{S}} (\Delta x + j \Delta y) (1)
 \end{equation}
 
 \noindent Here we see that we have a segment that is equivalent to oru defined $Z(k)$, so we can simplify by expressing:
 
 \begin{equation}
-    Z(k) + \sum_{s=0}^{S-1} e^{-2\pi j + \frac{ks}{S}} (\Delta x + j \Delta y)
+    Z(k) + (1) (\Delta x + j \Delta y) \sum_{s=0}^{S-1} e^{-2\pi j \frac{ks}{S}}
 \end{equation}
 
 \noindent With $\Delta x$ and $j \Delta y$ isolated, we can use a table of known Fourier Transforms to identify the resulting conversion. Based on our problem's definition $\Delta X$ and $\Delta y$ are both constants, so we can state that:
 
 \begin{equation}
-    Z'(k) = Z(k) + \sigma(k)
+    Z'(k) = Z(k) + (\Delta x + j \Delta y) \sigma(\frac{2 \pi k}{S})
 \end{equation}
+
+\noindent ...where $\frac{1}{S}$ acts as our scaling factor.
 
 \subsection*{B}
 
-What object has $z(s) = R \cos(\frac{2\pi s}{S} + jR \sin(\frac{4\pi s}{S}))$? Below we see a graph drawing the shape, and included code to generate it. Random values were chosen for the $S$ and $r$ for the sake of plotting it.
+What object has $z(s) = R \cos(\frac{2\pi s}{S}) + jR \sin(\frac{4\pi s}{S})$? Below we see a graph drawing the shape, and included code to generate it. Random values were chosen for the $S$ and $r$ for the sake of plotting it.
 
 \begin{figure}[H]
     \centering
@@ -144,6 +144,47 @@ plt.savefig("./imgs/prob3_b.png")
 \end{python}
 
 \subsection*{C}
+
+In this problem we are tasked with showing what $Z(k)$ is corresponding to $z(s)$. We begin with our equation from $B$:
+
+\begin{equation}
+    z(s) = R \cos(\frac{2\pi s}{S}) + jR \sin(\frac{4\pi s}{S})
+\end{equation}
+
+\noindent We can utilize the inverse of Euler's formula; $\cos(x)=\frac{e^{ix}+e^{-ix}}{2}$ and $\sin(t) = \frac{e^{ix}-e^{-ix}}{2x}$. This allows us to expand our starting equation:
+
+\begin{equation}
+    z(s) = \frac{R(e^{j \frac{2 \pi s}{S}}+e^{-j \frac{2 \pi s}{S}})}{2} + \frac{R (e^{j \frac{4 \pi s}{S}} - e^{-j \frac{4 \pi s}{S}})}{2}
+\end{equation}
+
+\noindent We can then begin simplifying our equation by moving out constants ($\frac{R}{2}$) and repositioning terms:
+
+\begin{equation}
+    \frac{R}{2} (e^{j \frac{2 \pi s}{S}}+e^{-j \frac{2 \pi s}{S}} + e^{j \frac{4 \pi s}{S}} - e^{-j \frac{4 \pi s}{S}})
+\end{equation}
+
+Looking at the discrete fourier transform (DFT) from earlier in our problem, specifically, we can then begin to expand on this equation. Our starting equation is:
+
+\begin{equation}
+    Z(k) = \sum^{S-1}_{s=0} e^{-2*\pi j \frac{ks}{S}} z(s), 0\leq k \leq S-1
+\end{equation}
+
+\noindent ...which can lead us to:
+
+\begin{equation}
+    Z(k) = \sum^{S-1}_{s=0} e^{-2*\pi j \frac{ks}{S}} (\frac{R}{2} (e^{j \frac{2 \pi s}{S}}+e^{-j \frac{2 \pi s}{S}} + e^{j \frac{4 \pi s}{S}} - e^{-j \frac{4 \pi s}{S}}))
+\end{equation}
+
+\begin{equation}
+    Z(k) = \frac{R}{2} \sum^{S-1}_{s=0} e^{-j 2 \pi (k-1)}{S} + e^{-j 2 \pi (k+1)}{S} + e^{-j 2 \pi (k-2)}{S} + e^{-j 2 \pi (k+2)}{S}
+\end{equation}
+
+\noindent We know from a Fourier Transform lookup table that $e^{j 2 \pi \omega x_0}$ transforms to $2 \pi \sigma(x - x_0) $, so applying this here:
+
+\begin{equation}
+    Z(k) = \sigma(2 \pi \frac{k-1}{S}) + \sigma(2 \pi \frac{k+1}{S}) + \sigma(2 \pi \frac{k-2}{S}) + \sigma(2 \pi \frac{k+2}{S})
+\end{equation}
+
 
 
 \end{document}
