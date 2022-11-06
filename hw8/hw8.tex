@@ -1,0 +1,39 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin = 0.8in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{mathtools}
+\usepackage{float}
+\usepackage{pythonhighlight}
+
+\title{RBE549 - Homework 8}
+\author{Keith Chester}
+\date{Due date: November 9, 2022}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 1}
+
+In this problem we are asked if we have two binary images, $I_1$ and $I_2$, we want to show that that $|I_1 - I_2|^2 = \sum $ \# of all pixels where $I_1 \neq I_2$, with $|I|^2 = \sum i^2_{jk}$ as the sum of all pixels squared in $I$.
+
+First, we define that binary images are images that have the possible values of $(0, 1)$. Thus we have only a few possibilities for any given pixel amongst our function.
+
+\begin{itemize}
+    \item $I_1=0$, $I_2=0$: $0$
+    \item $I_1=1$, $I_2=0$: $1$
+    \item $I_1=1$, $I_2=1$: $0$
+    \item $I_1=1$, $I_2=0$: $1$, as we square the result of the absolute
+\end{itemize}
+
+Thus we see that, because of the $|result|^2$, wherever both $I_1$ and $I_2$ are $1$ where the other is $0$, we end up with a $1$ value. Wherever $I_1 \cup I_2$, or both are $1$, we result in an outcome of $0$.
+
+\section*{Problem 2}
+
+In this problem we are exploring Bayesian classifiers.
+
+
+\end{document}
