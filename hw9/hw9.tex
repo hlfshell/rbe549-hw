@@ -1,0 +1,115 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin = 0.8in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{mathtools}
+\usepackage{float}
+\usepackage{pythonhighlight}
+
+\title{RBE549 - Homework 9}
+\author{Keith Chester}
+\date{Due date: November 16, 2022}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 1}
+
+Here we are presented with the Logistic function ($L(\Sigma) = \frac{1}{1+e^{-\Sigma}}$) and the Hyperbolic tangent function ($tanh(\Sigma) = \frac{sinh(\Sigma)}{cosh(\Sigma)}$). We are asked to derive an expression for $tanh(\Sigma)$ in terms of $L(\Sigma)$.
+
+\noindent To do this, first we recognize that $L(\Sigma)$ is symmetric about the origin; therefore $L(-\Sigma) = 1 - L(\Sigma)$. Thus we can show that:
+
+\begin{equation}
+    1 - \frac{1}{1 + e^{-\Sigma}} = \frac{1}{1 + e^\Sigma}
+\end{equation}
+
+\noindent We can then expand the definition of $tanh(\Sigma)$ by recognizing the definition of $sinh$ and $cosh$:
+
+\begin{equation}
+    tanh(\Sigma) = \frac{sinh(\Sigma)}{cosh(\Sigma)} = \frac{e^\Sigma - e ^ {-\Sigma}}{e^\Sigma + e ^{-\Sigma}}
+\end{equation}
+
+\noindent We can then begin working this equation to get it in a familiar form relative to $L(\Sigma)$.
+
+\begin{equation}
+    = \frac{e^\Sigma + e^{-\Sigma} -2e^{-\Sigma}}{e^\Sigma + e^{-\Sigma}} = 1 + \frac{-2e^\Sigma}{1+ e^{-2\Sigma}} = 1 - \frac{2}{e^{2\Sigma} + 1}
+\end{equation}
+
+\noindent We can then take our definiton of $L(x)$ ($L(x) = \frac{1}{1 + e^{-x}}$) by letting $x=-2\Sigma$ and substituting:
+
+\begin{equation}
+    = 1 - \frac{2}{e^{2\Sigma} + 1} = 1 - 2L(-2\Sigma) = 1 - 2(1 - L(2\Sigma)) = 2L(2\Sigma) - 1
+\end{equation}
+
+\section*{Problem 2}
+
+In this problem we are posed with a question about Intersection over Union (IoU). IoU is defined as two regions $A$ and $B$, $\frac{|A \cap B|}{|A \cup B|}$. We wish to show that $IoU(A,B)=1 - \frac{|A \textit{ xor } B|}{|A \cup B|}$.
+
+\noindent We will define the $\textit{xor}$ operator as the following:
+
+\begin{equation}
+    \textit{xor(A,B)} = | A \textit{xor} B | = |A \cap !B| \cup |!A \cap B|
+\end{equation}
+
+\noindent ...where we reach this as realizing that $\textit{xor}$ covering the set of "one or the other but not both".
+
+\noindent To do this, we need to look at the different sets that $|A \cup B |$ represents. It breaks down to:
+
+\begin{itemize}
+    \item A set wherein both A and B exists
+    \item A set wherein A exists but not B
+    \item A set wherein B exists but not A
+\end{itemize}
+
+\noindent ...we can represent these sets by stating that $|A \cup B | = |A \cap B| \cup |A \cap !B| \cup |!A \cap B|$. With IoU defined as $\frac{|A \cap B|}{|A \cup B|}$, we can identify key set descriptions about our intersection. With $|A \cap B|$ as our set of intersection of $A$ and $B$, and $|A \cup B| - |A \cap !B| \cup |!A \cap B|$ as the union of $A$ and $B$ subtracted the union of (the area that is not $B$ but is $A$) and (the area that is not $A$ and is $B$),
+
+\noindent Expressing this in set notation, we can say that our $IoU(A,B)$ can be expanded into:
+
+\begin{equation}
+    \frac{|A \cup B | - |A \cap ! B | \cup |!A \cap B|}{|A \cup B|}
+\end{equation}
+
+\noindent We can then begin to separate shared terms, specifically the $|A \cup B|$:
+
+\begin{equation}
+    = \frac{|A \cup B|}{|A \cup B|} - \frac{|A \cap ! B | \cup |!A \cap B|}{|A \cup B|} = 1 - \frac{|A \cap ! B | \cup |!A \cap B|}{|A \cup B|}
+\end{equation}
+
+\noindent Now utilizing the previously defined $\textit{xor}$ operator to replace $|A \cap ! B | \cup |!A \cap B|$:
+
+\begin{equation}
+    = 1 - \frac{|A \cap ! B | \cup |!A \cap B|}{|A \cup B|} = 1 - \frac{|A \textit{xor} B|}{|A \cup B|}
+\end{equation}
+
+
+\section*{Problem 3}
+
+In this problem, we are tasked with looking at the classic LeNet-5 neurnal network, specifically looking at the third convolutional layer $C_3$. We are asked the number of connections in the layer, and the number of trainable parameters in the layers. We can caclulate both.
+
+\noindent First, we need to calculate the number of trainable parameters. We have:
+
+\begin{itemize}
+    \item $C_3$ has $16$ kernels of size $(5 \times 5)$
+    \item The $16$ kernels' receptive fields are divided into $6$ of $3$ features, $9$ of $4$ features, and $1$ of $6$ features.
+\end{itemize}
+
+\noindent Using these values, we can calulate a total number of parameters of:
+
+\begin{equation}
+    5*5*(6*3 + 9*4 + 1*6) + 16 = 1516
+\end{equation}
+
+\noindent With these $1,516$ trainable parameters, we can then calculate the number of connections, as we have an output feature map size of $(10 \times 10)$, so:
+
+\begin{equation}
+    10 * 10 * 1,516 = 151,600
+\end{equation}
+
+\noindent ...for $151,600$ total connections in $C_3$.
+
+
+
+\end{document}
