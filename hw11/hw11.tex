@@ -1,0 +1,177 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin = 0.8in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{mathtools}
+\usepackage{float}
+
+
+\title{RBE549 - Homework 10}
+\author{Keith Chester}
+\date{Due date: November 23, 2022}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 1}
+
+In this problem ,we are asked to consider two surfaces:
+
+\begin{equation}
+    z_1 = \frac{1}{2} \ln(x^2 + y^2)
+\end{equation}
+
+\noindent ...and...
+
+\begin{equation}
+    z_2 = \tan^-1(\frac{x}{y})
+\end{equation}
+
+\subsection*{A}
+
+We are asked to find $p(x,y)$ and $q(x,y)$ for both surfaces. $p(x,y)=\frac{\partial z_n}{\partial x}$ and $q(x,y)=\frac{\partial z_n}{d_y}$. So we solve for each:
+
+\begin{equation}
+    p_1 = \frac{\partial z_1}{\partial x} = \frac{\partial}{\partial x} \frac{1}{2} \ln(x^2 + y^2) = \frac{x}{x^2+y^2}
+\end{equation}
+
+\begin{equation}
+    q_1 = \frac{\partial z_1}{\partial y} = \frac{\partial}{\partial y} \frac{1}{2} \ln(x^2 + y^2) = \frac{y}{x^2+y^2}
+\end{equation}
+
+\begin{equation}
+    p_2 = \frac{\partial z_2}{\partial x} = \frac{\partial}{\partial x} \tan^-1(\frac{x}{y}) = \frac{y}{x^2 + y^2}
+\end{equation}
+
+\begin{equation}
+    q_2 = \frac{\partial z_2}{\partial y} = \frac{\partial}{\partial y} \tan^-1(\frac{x}{y}) =  -\frac{x}{x^2+y^2}
+\end{equation}
+
+\subsection*{B}
+
+Here, we are tasked in showing that $z_1$ and $z_2$ gives rise to the same shading when a rotationally symmetric reflectance map applies; $R(p,q) = R(p^2 + q^2)$.
+
+Here, we can show this by demonstrating that $p_1^2 + q_1^2 = p_2^2 + q^2$.
+
+\begin{equation}
+    p_1^2 + q_1^2 = p_2^2 + q^2
+\end{equation}
+
+\begin{equation}
+    \frac{x}{x^2+y^2}^2 + \frac{y}{x^2+y^2}^2 = \frac{y}{x^2 + y^2}^2 + -\frac{x}{x^2+y^2}^2
+\end{equation}
+
+\begin{equation}
+    \frac{x^2}{x^2+y^2} + \frac{y^2}{(x^2+y^2)^2} = \frac{y^2}{(x^2+y^2)^2} + \frac{x^2}{x^2+y^2}
+\end{equation}
+
+\begin{equation}
+    \frac{1}{x^2+y^2} = \frac{1}{x^2+y^2}
+\end{equation}
+
+\noindent
+
+
+\section{Problem 2}
+
+In this problem, we're looking at a surface normal $\hat{n}=\begin{bmatrix}n_x & n_y & n_z\end{bmatrix}^T$, where $n_x^2 + n_y^2 + n_z^2 = 1$, and can be represented by surface orientation $p,q.p = \frac{n_x}{\sqrt{1-n_x^2-n_y^2}}$, etc. In addition to the original origin, $\begin{bmatrix}0 & 0 & 0 \end{bmatrix}^T$, we can use another origin from the point $\begin{bmatrix}0 & 0 & -1 \end{bmatrix}^T$.
+
+\subsection*{A}
+
+Here, we are tasked with solving for $f$ and $g$. We can do this by solving for the line of the vector from our new origin point of $\begin{bmatrix}0 & 0 & -1 \end{bmatrix}^T$.
+
+\begin{equation}
+    \begin{bmatrix}
+        x \\ y \\ z
+    \end{bmatrix} = \begin{bmatrix}
+        a \\ b \\ c 
+    \end{bmatrix} + k \begin{bmatrix}
+        l \\ m \\ n
+    \end{bmatrix}
+\end{equation}
+
+\noindent Note that the slopes represented by our variables can be further defined as:
+
+\begin{equation}
+    \begin{bmatrix}
+        l \\ m \\ n
+    \end{bmatrix} = \begin{bmatrix}
+        x_2 - x_1 \\ y_2 - y_1 \\ z_2 - z_1
+    \end{bmatrix}
+\end{equation}
+
+\noindent Our $x$ and our $y$ are the values we're seeking to solve for, $f$ and $g$, respectively. Now we fill in our known values to solve for our line:
+
+\begin{equation}
+    \begin{bmatrix}
+        x \\ y \\ z
+    \end{bmatrix} = \begin{bmatrix}
+        a \\ b \\ c 
+    \end{bmatrix} + k \begin{bmatrix}
+        x_2 - x_1 \\ y_2 - y_1 \\ z_2 - z_1
+    \end{bmatrix}
+\end{equation}
+
+\begin{equation}
+    \begin{bmatrix}
+        f \\ g \\ 1
+    \end{bmatrix} = \begin{bmatrix}
+        0 \\ 0 \\ -1 
+    \end{bmatrix} + k \begin{bmatrix}
+        n_x - 0 \\ n_y - 0 \\ n_z + 1
+    \end{bmatrix}
+\end{equation}
+
+\noindent We can then break this down into a system of equations. First, we solve for $t$ using our $z$ value as we have an additional known here.
+
+\begin{equation}
+    1 = -1 + k (n_z + 1)
+\end{equation}
+
+\begin{equation}
+    k = \frac{2}{n_z+1}
+\end{equation}
+
+\noindent ...and now we can solve for $f$ and $g$:
+
+\begin{equation}
+    f = 0 + k (n_x-0) = \frac{2n_x}{n_z+1}
+\end{equation}
+
+\begin{equation}
+    g = 0 + k(n_y-0) = \frac{2n}{n_z+1}
+\end{equation}
+
+\noindent Resulting in a final $f$, $g$, $z$ = 
+
+\begin{equation}
+    \begin{bmatrix}
+        f \\ g \\ 1
+    \end{bmatrix} = \begin{bmatrix}
+        \frac{2n_x}{n_z+1} \\ \\ \frac{2n_y}{n_z+1} \\ \\ 1
+    \end{bmatrix}
+\end{equation}
+
+\subsection*{B}
+
+Now we are taskedwith showing that when $n_z = 0$, $f$ and $g$ are finite and lie on a circle of radius $2$.
+
+\begin{equation}
+    f = \frac{2n_x}{n_z+1} = \frac{2n_x}{0+1} = 2n_x
+\end{equation}
+
+\begin{equation}
+    g = \frac{2n}{n_z+1} = \frac{2n_y}{0+1} = 2n_y
+\end{equation}
+
+\noindent Given these values, we can confirm the statement that $f$ and $g$ are finite as they depend upon $n_x$ and $n_y$ respectively. Now, the radius is the result of the magnitude of the vector. This means we can do the following:
+
+\begin{equation}
+    |f,g| = \sqrt{f^2 + g^2} = \sqrt{ (2n_x)^2 + (2n_y)^2 } = \sqrt{4(\sqrt{1-n^2_y})^2 + (2n_y)^2} = \sqrt{4 - 4n_y^2 + 4n_y^2} = \sqrt{4} = 2
+\end{equation}
+
+
+\end{document}
