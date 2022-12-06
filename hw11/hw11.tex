@@ -174,4 +174,133 @@ Now we are taskedwith showing that when $n_z = 0$, $f$ and $g$ are finite and li
 \end{equation}
 
 
+\section*{Problem 3}
+
+Here we try our hands at a photometric stereo shading problem. We have an error $E$ defined as:
+
+\begin{equation}
+    E = \int\int F(p, q, p_x, p_y, q_x, q_y, x, y) dxdy
+\end{equation}
+
+\noindent ...where the error functional is:
+
+\begin{equation}
+    F(p, q, p_x, p_y, q_x, q_y) = \lambda(p_x^2 + p_y^2 + q_x^2 + q_y^2) + (I(x,y) - R(p,q))^2
+\end{equation}
+
+\noindent If we use the Euler-Lagrange Equations $F_p - \frac{\partial}{\partial x} F_{p_x} - \frac{\partial}{\partial y} F_{p_y} = 0$ and $F_q - \frac{\partial}{\partial x} F_{q_x} - \frac{\partial}{\partial y} F_{q_y} = 0$, show that $p$ and $q$ according to:
+
+\begin{equation}
+    p^{new}(x,y) = p_{avg} + \frac{1}{4\lambda}(I-R)\frac{\partial R}{\partial p}
+\end{equation}
+
+\begin{equation}
+    q^{new}(x,y) = q_{avg} + \frac{1}{4\lambda}(I-R)\frac{\partial R}{\partial q}
+\end{equation}
+
+\noindent ...where $p_{avg}$ and $q_{avg}$ are teh averages of the neighbors of the $p$, $q$ respectively.
+
+To tackle this, first we will find the partial derivatives of $F$ to $p$, $p_x$, $p_y$, $q$, $q_x$, and $q_y$.
+
+\begin{equation}
+    F_{p} = \frac{\partial}{\partial p} F = \frac{\partial}{\partial p} \lambda(p_x^2 + p_y^2 + q_x^2 + q_y^2) + (I(x,y) - R(p,q))^2 = 2(I(x,y)-R(p,q))\frac{\partial R}{\partial p}
+\end{equation}
+
+\begin{equation}
+    F_{q} = \frac{\partial}{\partial q} F = \frac{\partial}{\partial q} \lambda(p_x^2 + p_y^2 + q_x^2 + q_y^2) + (I(x,y) - R(p,q))^2 = 2(I(x,y)-R(p,q))\frac{\partial R}{\partial q}
+\end{equation}
+
+\begin{equation}
+    F_{p_x} = \frac{\partial}{\partial p_x} F = 2\lambda p_x
+\end{equation}
+
+\begin{equation}
+    F_{p_y} = \frac{\partial}{\partial p_y} F = 2\lambda p_y
+\end{equation}
+
+\begin{equation}
+    F_{q_x} = \frac{\partial}{\partial q_x} F = 2\lambda q_x
+\end{equation}
+
+\begin{equation}
+    F_{q_y} = \frac{\partial}{\partial q_y} F = 2\lambda q_y
+\end{equation}
+
+\noindent ...and we'll need the partial derivative of these for our Euler-Lagrange equations mentioned above as well.
+
+\begin{equation}
+    \frac{\partial}{\partial x} F{p_x} = 2 \lambda p_{xx}
+\end{equation}
+
+\begin{equation}
+    \frac{\partial}{\partial x} F{p_y} = 2 \lambda p_{yy}
+\end{equation}
+
+\begin{equation}
+    \frac{\partial}{\partial x} F{q_x} = 2 \lambda q_{xx}
+\end{equation}
+
+\begin{equation}
+    \frac{\partial}{\partial x} F{q_y} = 2 \lambda q_{yy}
+\end{equation}
+
+\noindent We can combine these components in the Euler-Lagragne equation mentioned above to get:
+
+\begin{equation}
+    F_p - \frac{\partial}{\partial x} F_{p_x} - \frac{\partial}{\partial y} F_{p_y} = 
+    2(I(x,y)-R(p,q))\frac{\partial R}{\partial p} - 2 \lambda p_{xx} - 2\lambda p_{yy} = 0
+\end{equation}
+
+\begin{equation}
+    F_q - \frac{\partial}{\partial x} F_{p_x} - \frac{\partial}{\partial y} F_{p_y} = 
+    2(I(x,y)-R(p,q))\frac{\partial R}{\partial q} - 2 \lambda q_{xx} - 2\lambda q_{yy} = 0
+\end{equation}
+
+\noindent If we then say that $\Delta q = q_{xx} + q_{yy}$ we can expand by claiming that $\Delta q = - \frac{1}{\lambda}(I(x,y) - R(p,q)) \frac{\partial R}{\partial q}$, our Laplacian.
+
+From here we swap to a discrete space versus the continuous space we've been working on, focusing on pixels. If we label a given $p_{i,j}$ where $(i,j)$ are the coordinates, we can do the following:
+
+\begin{equation}
+    \Delta p_{ij} = (p_{i-1,j} + p_{i,j+1} + p_{i+1,j} + p_{i, j-1}) - 4p_{ij} = 4(\bar{p}_{i_j} - p_{ij})
+\end{equation}
+
+\noindent ...where we define $\bar{p}_{i,j}$ as an average of these points, so:
+
+\begin{equation}
+    \bar{p}_{i,j} = \frac{1}{4}(p_{i-1,j} + p_{i,j+1} + p_{i+1,j} + p_{i, j-1})
+\end{equation}
+
+\noindent meaning...
+
+\begin{equation}
+    4(\bar{p}_{i_j} - p_{ij}) = \frac{-1}{\lambda}(I(x,y)-R(p,q))\frac{\partial R}{\partial p}
+\end{equation}
+
+\begin{equation}
+    p_{ij} = \bar{p}_{i,j} + \frac{-1}{4 \lambda}(I(x,y)-R(p,q))\frac{\partial R}{\partial p}
+\end{equation}
+
+\noindent And for $q$:
+
+\begin{equation}
+    4(\bar{q}_{i_j} - q_{ij}) = \frac{-1}{\lambda}(I(x,y)-R(p,q))\frac{\partial R}{\partial q}
+\end{equation}
+
+\begin{equation}
+    q_{ij} = \bar{q}_{i,j} + \frac{-1}{4 \lambda}(I(x,y)-R(p,q))\frac{\partial R}{\partial q}
+\end{equation}
+
+\noindent We can apply these to an iterative (because we are working in discrete pixel space as opposed to our earlier continuous space), solving with $p_{i,j}^{k+1}$ and $p_{i,j}^{-k}$ as our iterative steps in place of $p_{i,j}$ and $\bar{p}_{i,j}$, respectively. This approach can also be instead said to be $p^{new}$ and $p_{old}$, respectively:
+
+\begin{equation}
+    p^{new} = p^{avg} + \frac{1}{\lambda}(I(x,y)-R(p,q))\frac{\partial R}{\partial p}
+\end{equation}
+
+\noindent ...and similary for $q$:
+
+\begin{equation}
+    q^{new} = q^{avg} + \frac{1}{\lambda}(I(x,y)-R(p,q))\frac{\partial R}{\partial q}
+\end{equation}
+
+
 \end{document}
