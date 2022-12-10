@@ -84,27 +84,107 @@ We wish to show that the update equations:
 
 \begin{equation}
     \begin{bmatrix}
-        \lambda I_x^2 + 4 & \lambda I_x I_y \\
-        \lambda I_x I_y & \lambda I_y^2 + 4
+        \lambda I_{x'}^2 + 4 & \lambda I_{x'} I_{y'} \\
+        \lambda I_{x'} I_{y'} & \lambda I_{y'}^2 + 4
     \end{bmatrix}^{-1} =
-    \frac{1}{(\lambda I_x^2 + 4)(\lambda I_y^2 + 4)- \lambda I_x I_y \lambda I_x I_y}
+    \frac{1}{(\lambda I_{x'}^2 + 4)(\lambda I_{y'}^2 + 4)- \lambda I_{x'} I_{y'} \lambda I_{x'} I_{y'}}
     \begin{bmatrix}
-        \lambda I_y^2 + 4 & -\lambda I_x I_y \\
-        -\lambda I_x I_y & \lambda I_y^2 + 4
+        \lambda I_{y'}^2 + 4 & -\lambda I_{x'} I_{y'} \\
+        -\lambda I_{x'} I_{y'} & \lambda I_{y'}^2 + 4
     \end{bmatrix}
 \end{equation}
 
 \noindent ...which simplifies to:
 
 \begin{equation}
-    \frac{1}{4 \lambda I_x^2 + 4\lambda I_y^2 + 16}
+    \frac{1}{4 \lambda I_{x'}^2 + 4\lambda I_{y'}^2 + 16}
     \begin{bmatrix}
-        \lambda I_y^2 + 4 & -\lambda I_x I_y \\
-        -\lambda I_x I_y & \lambda I_x^2 + 4
+        \lambda I_{y'}^2 + 4 & -\lambda I_{x'} I_{y'} \\
+        -\lambda I_{x'} I_{y'} & \lambda I_{x'}^2 + 4
     \end{bmatrix}
 \end{equation}
 
-\noindent From here we'll look $\bar{u}'^{new}$.
+\noindent This in turn leads us to an expanded view from earlier:
+
+\begin{equation}
+    u'^{new}(x,y) =
+    \frac{1}{4(\lambda I_{x'}^2 + \lambda I_{y'}^2 + 4)}
+    \begin{bmatrix}
+        \lambda I_{y'}^2 + 4 & -\lambda I_{x'} I_{y'}
+    \end{bmatrix}
+    \begin{bmatrix}
+        4\bar{u}^{old}-\lambda I_{x'} I_t \\
+        4\bar{v}^{old}-\lambda I_{y'} I_t \\
+    \end{bmatrix}
+\end{equation}
+
+\noindent ...We can then expand it into this:
+
+\begin{equation}
+    u'^{new}(x,y) = \frac{1}{4(\lambda I_{x'}^2 + \lambda I_{y'}^2 + 4)}
+    \big(
+    (\lambda I_{y'}^2 +4)(4\bar{u}'^{old}-\lambda I_{x'} I_t) - (\lambda I_{x'} I_{y'})(4\bar{v}'^{old}+\lambda I_{x'} I_{y'} \lambda I_{y'} I_t)
+    )
+\end{equation}
+
+\begin{equation}
+    u'^{new}(x,y) = \frac
+    {\lambda I_{y'}^2 4\bar{u}^{old}-\lambda I_{y'}^2 \lambda I_{x'} I_t + 16\bar{u}'^{old}-4\lambda I_{x'} I_t-(\lambda I_{x'} I_{y'})4\bar{v}'^{old}+\lambda^2 I_{y'}^2 I_{x'} I_t}
+    {4(\lambda I_{x'}^2 + \lambda I_{y'}^2 + 4)}
+\end{equation}
+
+\begin{equation}
+    u'^{new}(x,y) = \frac
+    {4(\lambda I_{y'}^2 \bar{u}'^{old} - \lambda I_{x'} I_t - \lambda I_{x'} I_{'}y \bar{v}'^{old})}
+    {4(\lambda I_{x'}^2 + \lambda I_{y'}^2 + 4)}
+\end{equation}
+
+\begin{equation}
+    u'^{new}(x,y) = \frac
+    {(\lambda I_{y'}^2 \bar{u}'^{old} - \lambda I_{x'} I_t - \lambda I_{x'} I_{y'} \bar{v}'^{old})}
+    {(\lambda I_{x'}^2 + \lambda I_{y'}^2 + 4)}
+\end{equation}
+
+\begin{equation}
+    u'^{new}(x,y) = \frac
+    {\bar{u}'^{old} (\lambda I_{y'}^2 + 4) - \lambda I_{x'} (I_t + I_{y'} \bar{v}'^{old})}
+    {\lambda (I_{x'}^2 + I_{y'}^2 + \frac{4}{\lambda})}
+\end{equation}
+
+\noindent We established earlier per the problem specifications that $I_{y'}=0$, so if we plug that in here:
+
+\begin{equation}
+    u'^{new}(x,y) = \frac
+    {\bar{u}'^{old} (0^2 + 4) - \lambda I_{x'} (I_t + 0 \bar{v}'^{old})}
+    {\lambda (I_{x'}^2 + 0^2 + \frac{4}{\lambda})} = 4\bar{u}'^{old} - \frac{\lambda I_{x'} I_t}{\lambda(I_{x'}^2+\frac{4}{\lambda})}
+\end{equation}
+
+\begin{equation}
+    u'^{new}(x,y) = 4\bar{u}'^{old}-\frac{I_{x'}I_t}{I_{x'}^2 + \frac{4}{\lambda}} = \bar{u}'^{old} - \frac{I_{x'}^2 \bar{u}'^{old} + I_{x'}I_t}{I_x^2+\frac{4}{\lambda}}
+\end{equation}
+
+\noindent ...which matches what we were seeking to reduce to for $u'^{new}(x.y)$. Doing this for $v'^{new}(x,y)$ we would follow a similar path - we would find that:
+
+\begin{equation}
+    v'^{new}(x,y) = \bar{v}'^{old} - \frac{I_{y'}}{I_{x'}^2 + I_{y'}^2 + \frac{4}{\lambda}}\bigl( I_{x'}\bar{u}'^{old} + I_{y'}\bar{v}'^{old} + I_t \bigr)
+\end{equation}
+
+\noindent ...and again, since we were todl that $I_{y'} = 0$:
+
+\begin{equation}
+    v'^{new}(x,y) = \bar{v}'^{old} - \frac{0}{I_{x'}^2 + 0^2 + \frac{4}{\lambda}}\bigl( I_{x'}\bar{u}'^{old} + 0\bar{v}'^{old} + I_t \bigr) = \bar{v}'^{old} - 0 = \bar{v}'^{old}
+\end{equation}
+
+\noindent ...thus proving that:
+
+\begin{equation}
+    u'^{new}(x,y) = \bar{u}'^{old} - \frac{I_{x'}^2 \bar{u}'^{old} + I_{x'}I_t}{I_x^2+\frac{4}{\lambda}}
+\end{equation}
+
+\begin{equation}
+    v'^{new}(x,y) = \bar{v}'^{old}
+\end{equation}
+
 
 
 \section*{Problem 2}
