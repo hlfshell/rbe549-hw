@@ -113,8 +113,8 @@ We wish to show that the update equations:
         \lambda I_{y'}^2 + 4 & -\lambda I_{x'} I_{y'}
     \end{bmatrix}
     \begin{bmatrix}
-        4\bar{u}^{old}-\lambda I_{x'} I_t \\
-        4\bar{v}^{old}-\lambda I_{y'} I_t \\
+        4\bar{u}'^{old}-\lambda I_{x'} I_t \\
+        4\bar{v}'^{old}-\lambda I_{y'} I_t \\
     \end{bmatrix}
 \end{equation}
 
@@ -135,13 +135,13 @@ We wish to show that the update equations:
 
 \begin{equation}
     u'^{new}(x,y) = \frac
-    {4(\lambda I_{y'}^2 \bar{u}'^{old} - \lambda I_{x'} I_t - \lambda I_{x'} I_{'}y \bar{v}'^{old})}
+    {4(\lambda I_{y'}^2 \bar{u}'^{old} + 4\bar{u}'^{old} - \lambda I_{x'} I_t - \lambda I_{x'} I_{'}y \bar{v}'^{old})}
     {4(\lambda I_{x'}^2 + \lambda I_{y'}^2 + 4)}
 \end{equation}
 
 \begin{equation}
     u'^{new}(x,y) = \frac
-    {(\lambda I_{y'}^2 \bar{u}'^{old} - \lambda I_{x'} I_t - \lambda I_{x'} I_{y'} \bar{v}'^{old})}
+    {(\lambda I_{y'}^2 \bar{u}'^{old} + 4\bar{u}'^{old} - \lambda I_{x'} I_t - \lambda I_{x'} I_{y'} \bar{v}'^{old})}
     {(\lambda I_{x'}^2 + \lambda I_{y'}^2 + 4)}
 \end{equation}
 
@@ -160,7 +160,7 @@ We wish to show that the update equations:
 \end{equation}
 
 \begin{equation}
-    u'^{new}(x,y) = 4\bar{u}'^{old}-\frac{I_{x'}I_t}{I_{x'}^2 + \frac{4}{\lambda}} = \bar{u}'^{old} - \frac{I_{x'}^2 \bar{u}'^{old} + I_{x'}I_t}{I_x^2+\frac{4}{\lambda}}
+    u'^{new}(x,y) = 4\bar{u}'^{old}-\frac{I_{x'}I_t}{I_{x'}^2 + \frac{4}{\lambda}} = \bar{u}'^{old} - \frac{I_{x'}^2 \bar{u}'^{old} + I_{x'}I_t}{I_{x'}^2+\frac{4}{\lambda}}
 \end{equation}
 
 \noindent ...which matches what we were seeking to reduce to for $u'^{new}(x.y)$. Doing this for $v'^{new}(x,y)$ we would follow a similar path - we would find that:
