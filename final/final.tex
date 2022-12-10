@@ -158,7 +158,34 @@ Suppose that the object is translated by $(\Delta x, \Delta y)$, that is, $z'(s)
 
 \subsection*{B}
 
-???
+In this section, we are asked to suppose that the object is scaled by an integer constant $c$, that is $z'(s)=cz(s)$. For simplicity, we are to assume that $S'=S$. How is $Z'(k)$ as the DFT of $z'$ related to $Z(k)$?
+
+\noindent Starting with our definition of $Z(k)$, which is our Fourier Transform of $z(s)$ as defined earlier:
+
+\begin{equation}
+    Z(k) = \sum^{S-1}_{s=0} e^{-2\pi j \frac{ks}{S}} z(s), 0\leq k \leq S-1
+\end{equation}
+
+\noindent If we then define $z'(s)$ as above, $z'(s)=cz(s)$, we can plug it into our Fourier Transform:
+
+\begin{equation}
+    Z'(k) = \sum^{S-1}_{s=0} e^{-2\pi j \frac{ks}{S}} cz(s)
+\end{equation}
+
+\noindent Since $c$ is a constant, we know we can pull it in front of the fourier Transform like so:
+
+\begin{equation}
+    Z'(k) = c \sum^{S-1}_{s=0} e^{-2\pi j \frac{ks}{S}} z(s) 
+\end{equation}
+
+\noindent ...and further simplified:
+
+\begin{equation}
+    Z'(k) = c Z(k)
+\end{equation}
+
+\noindent ...which shows that multiplying our time series function by a given scalar simply multipies our frequncy domain by the same scalar.
+
 
 \subsection*{C}
 
