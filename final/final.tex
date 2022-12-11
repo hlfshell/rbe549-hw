@@ -8,6 +8,7 @@
 \usepackage{mathtools}
 \usepackage{float}
 \usepackage{pythonhighlight}
+\usepackage{array}
 
 
 \title{RBE549 - Final Exam}
@@ -145,7 +146,7 @@ We wish to show that the update equations:
     {(\lambda I_{x'}^2 + \lambda I_{y'}^2 + 4)}
 \end{equation}
 
-\noindent Now we can introduce terms to try and help us simplify to our end goal. To this end, we will be adding in the terms $\lambda I_{x'}^2\bar{u}'^old-\lambda I_{x'}^2\bar{u}'^old$. Since the terms cancel out on their own it's the equivalent of adding 0, and thus does not change our definition.
+\noindent Now we can introduce terms to try and help us simplify to our end goal. To this end, we will be adding in the terms $\lambda I_{x'}^2\bar{u}'^{old} -\lambda I_{x'}^2\bar{u}'^{old}$. Since the terms cancel out on their own it's the equivalent of adding 0, and thus does not change our definition.
 
 \begin{equation}
     u'^{new}(x,y) = \frac
@@ -579,6 +580,28 @@ Looking at the above equations, we can simplify the $2^{nd}$ and $4^{th}$ equati
 
 \noindent ...which is what we set out to prove!
 
+
+\section*{Problem 4}
+
+In this problem we are presented with a robot which has two main sensors for vision - an infra-red sensor, and a LiDAR sensor.
+
+We are tasked with filling in a table with brief discussions of one to three challenges with LiDAR vision alone, infra-red vision alone, the combination of the two, and challening situations that require additional vision capacities.
+
+\begin{center}
+    \begin{tabular}{| m{2em} | m{11em}| m{11em} | m{11em} | m{11em} |}
+        \hline
+        & Challenges w/ LiDAR & Challenges w/ infra-red  & Benefits w/ both & Other vision options? \\ 
+        \hline
+        \# 1 &
+        LiDAR can have difficulty differentiating objects clustered together as separate objects, as their surfaces present pointclouds that merge together. &
+        Infra-red alone has trouble differentiating objects grouped together if their materials are of similar colors. Since we're seeing the resulting heat emission of all objects, if they are emitting similar temperatures they will look as a singular clump. &
+        In both you can... & 
+        
+        \\ 
+        
+        \hline
+    \end{tabular}
+\end{center}
 
 
 \end{document}
