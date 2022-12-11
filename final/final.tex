@@ -413,13 +413,13 @@ We can utilize the inverse of Euler's formula; $\cos(x)=\frac{e^{ix}+e^{-ix}}{2}
 \end{equation}
 
 \begin{equation}
-    Z(k) = (x_0 + jy_0) \sum^{S-1}_{s=0} e^{-2\pi j \frac{ks}{S}}  + R\sum^{S-1}_{s=0} e^{-j 2 \pi (k-1)} S
+    Z(k) = (x_0 + jy_0) \sum^{S-1}_{s=0} e^{-2\pi j \frac{ks}{S}}  + R\sum^{S-1}_{s=0} e^{-j 2 \pi \frac{(k-1)}{S}}
 \end{equation}
 
 \noindent We know from a Fourier Transform lookup table we can then convert this to:
 
 \begin{equation}
-    Z(k) = (x_0+jy_0)\sigma(\frac{2\pi k}{S}) + \sigma(2\pi \frac{k-1}{S})
+    Z(k) = (x_0+jy_0)\sigma(k) + R\sigma(k-1)
 \end{equation}
 
 
@@ -585,23 +585,42 @@ Looking at the above equations, we can simplify the $2^{nd}$ and $4^{th}$ equati
 
 In this problem we are presented with a robot which has two main sensors for vision - an infra-red sensor, and a LiDAR sensor.
 
-We are tasked with filling in a table with brief discussions of one to three challenges with LiDAR vision alone, infra-red vision alone, the combination of the two, and challening situations that require additional vision capacities.
+We are tasked with having brief discussions of one to three challenges with LiDAR vision alone, infra-red vision alone, the combination of the two, and challening situations that require additional vision capacities.
 
-\begin{center}
-    \begin{tabular}{| m{2em} | m{11em}| m{11em} | m{11em} | m{11em} |}
-        \hline
-        & Challenges w/ LiDAR & Challenges w/ infra-red  & Benefits w/ both & Other vision options? \\ 
-        \hline
-        \# 1 &
-        LiDAR can have difficulty differentiating objects clustered together as separate objects, as their surfaces present pointclouds that merge together. &
-        Infra-red alone has trouble differentiating objects grouped together if their materials are of similar colors. Since we're seeing the resulting heat emission of all objects, if they are emitting similar temperatures they will look as a singular clump. &
-        In both you can... & 
-        
-        \\ 
-        
-        \hline
-    \end{tabular}
-\end{center}
+\subsection*{LiDAR vision alone}
+
+First, we will explore the challenges we might encounter with solely using LiDAR on our robot.
+
+\begin{itemize}
+    \item \textbf{Object Detection} - LiDAR creates a set of points that represent distances. IF we are utilizing a planar LiDAR - IE a laser that sweeps at a set plane, we only have a two dimensional representation of those distances. These perimeters are only comprised of the presenting-face/edge of the object, and nowhere near complete. From these perimeters it is difficult to assign identity to any of them. If, instead, we have a 3d LiDAR sensor capable of creating point clouds, we can begin to better identify objects, but it is still difficult. We lack the detection of fine details, only its face-presenting outline, and its surface texture (assuming high enough resolution). similarly, this lack of details can be especially damning when like objects are overlayed or clumped together - it may be difficult to impossible to discern material differences such it would present as a singular object. For many applications this is unsuitable.
+    \item \textbf{Difficulty with sunlight} - LiDAR works by firing a laser (or a spread of them) and then timing the return of that laser. This means that LiDAR can be directly influenced and affected by the presence of bright lights, especially sunlight. By no means is LiDAR unusable during the day - there are units built for such applications. There is, however, times when sunlight not only saturates your results thus limiting your distance-range, but can also outright interfere with the sensor. Imagine our robot driving into the sunset with the sensor oriented towards the sun; the sensor's reading will likely be shortened, or extremely insuated with noise.
+    \item \textbf{Affected by weather} - If we expect our robot to operate in outdoor environments, then we must also note that the weather can heavily affect the performance of the sensor. Heavy rain or fog can dramatically shorten the range of the sensor, scattering the fired laser. Snow fall can actually reflect or absorb the laser oddly, resulting in incorrect readings for snow covered objects.
+\end{itemize}
+
+
+\subsection*{Infra-red vision alone}
+
+\begin{itemize}
+    \item \textbf{Detail obscurity} - Since we are reading the emission of infra-red light from the object, it is heavily influenced by the emissivity of the material and its active temperature. Certain materials block or absorb infra-red, resulting in a vision-blocker. This weakness of infra-red vision is utilized in military applications, for instance. Along the same line, details of objects that are emitting can be obscured and lost completely. For instance, a human's shape and outline can be discerned, but it is difficult to impossible to distinguish fine details such as expression.
+    \item \textbf{Shading and edge detection} - objects tend to emit infra-red uniformly; as a result there is no shading to allows us to estimate surface orientation. This means orientation and identification is difficult.
+    \item \textbf{Repeatability} - Since infra-red is affected by the temperature of the object, objects can be represented as completely unrecognizable shades and colors simply because of different ambient or object temperatures.
+\end{itemize}
+
+\subsection*{Benefits of imaging with both LiDAR and infra-red vision}
+
+\begin{itemize}
+    \item \textbf{Sunlight agnostic} - As mentioned earlier, LiDAR has issues with sunlight saturated environments and situations. Infra-red does not have this issue, allowing our robot to easily use vision to safely navigate into the sunset.
+    \item \textbf{Protection against weather} - LiDAR has significant issue in snow, rain, and fog. While fog, if thick enough, can still block vision of infra-red, in light fog and the other scenarios infra-red will not be heavily affected and will help better inform our robot of its environment for navigation.
+    \item \textbf{Repeatability on identification} - Infra-red has issues with a lack of shading and coloring difference due to difference in temperatures. LiDAR can better and reliably detect surface textures and orientation, allowing better detection with the combined sensors.
+\end{itemize}
+
+\subsection*{What other vision options can we benefit from?}
+
+\begin{itemize}
+    \item \textbf{RGB Camera} - The most common vision sensor, an RGB camera would grant us color, shading, and significant improvements in details on objects such that we would be able to more easily identify objects within our environment, such as reading signs or warning labels.
+    \item \textbf{X-Ray} - There are several situations where we need to detect what's \textit{underneath} a given surface or material to correctly identify problems that we could be sending our robot out to repair. X-Ray sensors allow us to see through certain materials, allowing us insight that other sensors would otherwise be completely ignorant of.
+    \item \textbf{Sonar} - If our robot is required to work in an underwater situation, our available sensors of LiDAR and infra-red have limited range and can be deterimental to . Traditionally we can achieve a far greater range of detection with sonar.
+\end{itemize}
 
 
 \end{document}
