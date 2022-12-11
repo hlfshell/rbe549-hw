@@ -423,4 +423,162 @@ We can utilize the inverse of Euler's formula; $\cos(x)=\frac{e^{ix}+e^{-ix}}{2}
 
 
 
+\section*{Problem 3}
+
+In this problem, we are looking at Stereo vision via Singular Value Decomposition (SVD). We are told to assume the usual stereo geometry, where the left and right cameras are offset by baseline $\vec{B}$ that is perpendicular to the common focal vector $\vec{F}$. Then the stereo imaging equations are:
+
+\begin{equation}
+    \vec{X}_L = \frac{|\vec{F}|^2}{\vec{F}\cdot \vec{X}^W}
+\end{equation}
+
+\begin{equation}
+    \vec{X}_R = \frac{|\vec{F}|^2}{\vec{F}\cdot \vec{X}^W}
+\end{equation}
+
+\noindent In the presence of imaging errors and noise, these equations might not hold exactly. We can approximate them by:
+
+\begin{equation}
+    \vec{X}_L-\frac{|\vec{F}|^2}{\vec{F} \cdot \vec{X}^W}
+    \bigl(
+        \vec{X}^W + \frac{\vec{B}}{2}
+    \bigr) \approx \vec{0}
+\end{equation}
+
+\begin{equation}
+    \vec{X}_R-\frac{|\vec{F}|^2}{\vec{F} \cdot \vec{X}^W}
+    \bigl(
+        \vec{X}^W + \frac{\vec{B}}{2}
+    \bigr) \approx \vec{0}
+\end{equation}
+
+\subsection*{A}
+
+First we are tasked with showing that these equations can be written as a $4x4$ matrix operating on a column vector in homogenous coordinates:
+
+\begin{equation}
+    \begin{bmatrix}
+        -f & 0 & x_L & -f \frac{b}{2}\\
+        0 & -f & y_L & 0 \\
+        -f & 0 & x_R & -f \frac{b}{2}\\
+        0 & -f & y_R & 0 \\
+    \end{bmatrix}\begin{bmatrix}
+        x^W \\ y^W \\ z^W \\ 1
+    \end{bmatrix}
+    \approx \vec{0}
+\end{equation}
+
+\noindent We start by first rewriting the project equation for the left camera:
+
+\begin{equation}
+    \bigl( \vec{F}\cdot\vec{X}^W \bigr) \vec{X}_L - |\vec{F}|^w \bigl( \vec{X}^W + \frac{\vec{B}}{2} \bigr) \approx \vec{0}
+\end{equation}
+
+\noindent ...we can then expand the components for each coordinate axis:
+
+\begin{equation}
+    f z^W x_L - f^2 x^W - f^2 \frac{b}{2} \approx 0
+\end{equation}
+
+\begin{equation}
+    f z^W y_L - f^2 y^W \approx 0
+\end{equation}
+
+\begin{equation}
+    z^W y_R - f y^W \approx 0
+\end{equation}
+
+\noindent ...where the bottom equation reduces to $0$, as $z_L = f$. We can then simplify these equations for both the left and right projections by dividing them by $f$ to simplify:
+
+\begin{equation}
+    z^W x_L - f x^W - f \frac{b}{2} \approx 0
+\end{equation}
+
+\begin{equation}
+    z^W y_L - f y^W \approx 0
+\end{equation}
+
+\begin{equation}
+    z^W x_R - f x^W + f \frac{b}{2} \approx 0
+\end{equation}
+
+\begin{equation}
+    z^W y_R - f y^W \approx 0
+\end{equation}
+
+\noindent ...We can represent this as a matrix:
+
+\begin{equation}
+    \begin{bmatrix}
+        -f & 0 & x_L & -f \frac{b}{2}\\
+        0 & -f & y_L & 0 \\
+        -f & 0 & x_R & -f \frac{b}{2}\\
+        0 & -f & y_R & 0 \\
+    \end{bmatrix}\begin{bmatrix}
+        x^W \\ y^W \\ z^W \\ 1
+    \end{bmatrix}
+    \approx \vec{0}
+\end{equation}
+
+\noindent ...which is what we were looking for!
+
+\subsection*{B}
+
+We can use SVD to find the singular vector $\tilde{X}'$ that minimizes $|A\vec{X}|^2$ subject to $|\vec{X}|^2=1$. We wish to express the world point $\vec{X}= \begin{bmatrix}
+    x \\ y \\ z
+\end{bmatrix}$ in terms of $\tilde{X}' = \begin{bmatrix}
+    x' \\ y' \\ z' \\ w'
+\end{bmatrix}$.
+
+\noindent For this we can simply say that:
+
+\begin{equation}
+    \vec{X}^W = \frac{1}{W'} \tilde{X}' = \begin{bmatrix}
+        \frac{x'}{w'} \\ \frac{y'}{w'} \\ \frac{z'}{w'} \\ 1
+    \end{bmatrix}
+\end{equation}
+
+\subsection*{C}
+
+Here we are tasked to show that as $y_L=y_R$, our answer in part A gives $z^W=\frac{fb}{d}$, where $d$ is the disparity.
+
+\noindent To start, we look at our equations from part A:
+
+\begin{equation}
+    z^W x_L - f x^W - f \frac{b}{2} \approx 0
+\end{equation}
+
+\begin{equation}
+    z^W y_L - f y^W \approx 0
+\end{equation}
+
+\begin{equation}
+    z^W x_R - f x^W + f \frac{b}{2} \approx 0
+\end{equation}
+
+\begin{equation}
+    z^W y_R - f y^W \approx 0
+\end{equation}
+
+Looking at the above equations, we can simplify the $2^{nd}$ and $4^{th}$ equations; they simplify to $z^Wy - fy^W \approx 0$. If we set $y^W = \frac{z^W}{f}$, then it equals $0$ and can be ignored. Then, looking at equations 1 and 3 and subtracting one of the other:
+
+\begin{equation}
+    (x_L-x_R)z^W 0 fb \approx 0
+\end{equation}
+
+\noindent ...which expressed differently, shows that:
+
+\begin{equation}
+    z^W = \frac{fb}{x_L-x_R}
+\end{equation}
+
+\noindent ...and since we defined $d=x_L-x_R$...:
+
+\begin{equation}
+    z^W = \frac{fb}{d}
+\end{equation}
+
+\noindent ...which is what we set out to prove!
+
+
+
 \end{document}
